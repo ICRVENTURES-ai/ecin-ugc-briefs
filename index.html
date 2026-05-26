@@ -12,7 +12,9 @@
     background-image: url('https://raw.githubusercontent.com/icrventures-ai/ecin-ugc-briefs/main/bg.jpg');
     background-attachment: fixed;
     background-size: cover;
-    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center top;
+    min-height: 100vh;
   }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -20,6 +22,7 @@
     max-width: 520px; margin: 0 auto; padding: 0 0 80px;
     -webkit-font-smoothing: antialiased;
     background: transparent;
+    min-height: 100vh;
   }
   header {
     padding: 24px 20px 20px;
@@ -45,7 +48,7 @@
   .list { padding: 0 12px; }
   .brief-card {
     display: flex; align-items: center;
-    background: rgba(0,0,0,0.30); border: 1px solid #2a3038; border-radius: 12px;
+    background: rgba(0,0,0,0.55); border: 1px solid #2a3038; border-radius: 12px;
     margin-bottom: 12px; overflow: hidden;
     transition: border-color 0.15s;
     min-height: 60px;
@@ -88,6 +91,7 @@
   <h1>All Briefs.</h1>
 </header>
 <div class="list">
+<div class="brief-card"><a href="handlebar-bag-2-may-2026.html" class="card-link"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">2 May 2026</div></div><div class="card-arrow">&#8594;</div></a></div>
 <div class="brief-card"><a href="handlebar-bag-1-may-2026.html" class="card-link"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">1 May 2026</div></div><div class="card-arrow">&#8594;</div></a></div>
 </div>
 </body>
