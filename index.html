@@ -14,7 +14,10 @@
     -webkit-font-smoothing: antialiased;
   }
   header {
-    background: #000; padding: 24px 20px 20px;
+    background:
+      linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+      url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200') center/cover no-repeat;
+    padding: 24px 20px 20px;
     border-bottom: 3px solid #FF6B00; margin-bottom: 24px;
   }
   .header-top {
@@ -27,20 +30,24 @@
   }
   .header-label {
     font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    color: #6b7480; font-weight: 700;
+    color: #aab0b8; font-weight: 700;
   }
   header h1 {
-    font-size: 24px; font-weight: 800; line-height: 1.25; color: #e8eaed;
+    font-size: 24px; font-weight: 800; line-height: 1.25; color: #fff;
   }
   .list { padding: 0 12px; }
   .brief-card {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 14px; padding: 18px 20px;
+    display: flex; align-items: center;
     background: #14171a; border: 1px solid #2a3038; border-radius: 12px;
-    margin-bottom: 12px; text-decoration: none; color: inherit;
+    margin-bottom: 12px; overflow: hidden;
     transition: border-color 0.15s;
   }
   .brief-card:hover { border-color: #FF6B00; }
+  .card-link {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; padding: 18px 20px; flex: 1; min-width: 0;
+    text-decoration: none; color: inherit;
+  }
   .card-left { flex: 1; min-width: 0; }
   .card-name {
     font-size: 15px; font-weight: 700; color: #e8eaed;
@@ -53,6 +60,15 @@
   .card-arrow {
     font-size: 18px; color: #FF6B00; flex-shrink: 0; line-height: 1;
   }
+  .del-btn {
+    display: none; align-items: center; justify-content: center;
+    width: 44px; flex-shrink: 0; align-self: stretch;
+    background: transparent; border: none; border-left: 1px solid #2a3038;
+    color: #c0392b; font-size: 14px; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .del-btn:hover { background: rgba(192,57,43,0.15); color: #e74c3c; }
+  .del-btn:disabled { opacity: 0.4; cursor: default; }
 </style>
 </head>
 <body>
@@ -64,9 +80,48 @@
   <h1>All Briefs.</h1>
 </header>
 <div class="list">
-<a href="handlebar-bag-2-may-2026.html" class="brief-card"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">2 May 2026</div></div><div class="card-arrow">&#8594;</div></a>
-<a href="handlebar-bag-1-may-2026.html" class="brief-card"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">1 May 2026</div></div><div class="card-arrow">&#8594;</div></a>
-<a href="handlebar-bag-may-2026.html" class="brief-card"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">May 2026</div></div><div class="card-arrow">&#8594;</div></a>
+<div class="brief-card"><a href="handlebar-bag-3-may-2026.html" class="card-link"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">3 May 2026</div></div><div class="card-arrow">&#8594;</div></a><button class="del-btn" data-filename="handlebar-bag-3-may-2026.html" aria-label="Delete">&#10005;</button></div>
+<div class="brief-card"><a href="handlebar-bag-2-may-2026.html" class="card-link"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">2 May 2026</div></div><div class="card-arrow">&#8594;</div></a><button class="del-btn" data-filename="handlebar-bag-2-may-2026.html" aria-label="Delete">&#10005;</button></div>
+<div class="brief-card"><a href="handlebar-bag-1-may-2026.html" class="card-link"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">1 May 2026</div></div><div class="card-arrow">&#8594;</div></a><button class="del-btn" data-filename="handlebar-bag-1-may-2026.html" aria-label="Delete">&#10005;</button></div>
+<div class="brief-card"><a href="handlebar-bag-may-2026.html" class="card-link"><div class="card-left"><div class="card-name">Handlebar Bag</div><div class="card-date">May 2026</div></div><div class="card-arrow">&#8594;</div></a><button class="del-btn" data-filename="handlebar-bag-may-2026.html" aria-label="Delete">&#10005;</button></div>
 </div>
+<script>
+(function() {
+  var DASH = "http://localhost:5001";
+  var admin = new URLSearchParams(location.search).get('admin') === '1';
+  if (admin) {
+    document.querySelectorAll('.del-btn').forEach(function(btn) {
+      btn.style.display = 'flex';
+    });
+  }
+  document.querySelectorAll('.del-btn').forEach(function(btn) {
+    btn.addEventListener('click', async function(e) {
+      e.stopPropagation();
+      var fn = btn.dataset.filename;
+      if (!confirm('Delete ' + fn + ' from GitHub?')) return;
+      btn.textContent = '…';
+      btn.disabled = true;
+      try {
+        var r = await fetch(DASH + '/ugc/github/delete/' + encodeURIComponent(fn), {
+          method: 'POST',
+          credentials: 'include'
+        });
+        var d = await r.json();
+        if (d.ok) {
+          btn.closest('.brief-card').remove();
+        } else {
+          alert('Error: ' + d.error);
+          btn.textContent = '✕';
+          btn.disabled = false;
+        }
+      } catch(err) {
+        alert('Network error — are you logged into the dashboard?');
+        btn.textContent = '✕';
+        btn.disabled = false;
+      }
+    });
+  });
+})();
+</script>
 </body>
 </html>
