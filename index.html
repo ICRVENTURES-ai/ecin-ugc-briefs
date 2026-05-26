@@ -2,18 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>UGC Creator Briefs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ECIN / Shoot Briefs</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 600px; margin: 60px auto; padding: 0 20px; color: #e6edf3; background: #0d1117; }
-    h1 { font-size: 1.4rem; margin-bottom: 24px; }
-    ul { list-style: none; padding: 0; }
-    li { margin: 12px 0; border-bottom: 1px solid #21262d; padding-bottom: 12px; }
-    a { color: #58a6ff; text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0a0a0a;
+      color: #d4d4d4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 24px 60px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    header .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #f0f0f0;
+    }
+    ul {
+      list-style: none;
+      width: 100%;
+      max-width: 520px;
+    }
+    li {
+      border-bottom: 1px solid #1e1e1e;
+    }
+    li:first-child {
+      border-top: 1px solid #1e1e1e;
+    }
+    a {
+      display: block;
+      padding: 18px 4px;
+      color: #d4d4d4;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.15s;
+    }
+    a:hover {
+      color: #ffffff;
+    }
+    a::after {
+      content: " →";
+      color: #444;
+      font-size: 0.85em;
+    }
+    a:hover::after {
+      color: #888;
+    }
   </style>
 </head>
 <body>
-  <h1>Creator Briefs</h1>
+  <header>
+    <p class="eyebrow">ECIN</p>
+    <h1>Shoot Briefs</h1>
+  </header>
   <ul>
     <li><a href="handlebar-bag-may-2026.html">Handlebar Bag — May 2026</a></li>
   </ul>
